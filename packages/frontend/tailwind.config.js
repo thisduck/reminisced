@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
@@ -5,8 +7,14 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Noto Sans', ...defaultTheme.fontFamily.sans],
+        heading: ['Roboto', ...defaultTheme.fontFamily.sans],
+        logo: ['Cabin', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   variants: {},
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/ui")],
+};
