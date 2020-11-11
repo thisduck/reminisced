@@ -1,10 +1,25 @@
 import { gql, ApolloServer } from "apollo-server-express";
 import Bookmark from "../models/bookmark";
+import ItemData from "../models/item-data";
+import { parseAll } from "../lib/page-data";
 
 const typeDefs = gql`
   type Bookmark {
     id: ID!
     url: String!
+    canonicalUrl: String!
+    article: Article
+  }
+
+  type Article {
+    title: String!
+    byline: String
+    dir: String
+    content: String!
+    textContent: String!
+    length: Int!
+    excerpt: String
+    siteName: String
   }
 
   type Query {
@@ -17,18 +32,28 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Bookmark: {
+    article: (parent) => {
+      const article = ItemData.findOne({ canonicalUrl: parent.canonicalUrl });
+      return article;
+    },
+  },
   Query: {
     bookmarks: () => Bookmark.find().sort("-createdAt"),
   },
   Mutation: {
     addBookmark: async (_, { url }, __) => {
-      const bookmark = await new Bookmark({ url }).save();
+      const info = await parseAll(url);
+      const canonicalUrl = info.canonicalUrl || url;
+      const exists = await ItemData.exists({ canonicalUrl });
+      if (!exists) {
+        await new ItemData({ ...info.article, canonicalUrl }).save();
+      }
+      const bookmark = await new Bookmark({ url, canonicalUrl }).save();
       return bookmark;
     },
   },
 };
-
-const extensions = [() => new ApolloLogExtension({})];
 
 export default function createServer() {
   return new ApolloServer({

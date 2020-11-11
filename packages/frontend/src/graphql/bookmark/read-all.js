@@ -6,6 +6,10 @@ const bookmarksQuery = gql`
     bookmarks {
       id
       url
+      article {
+        title
+        excerpt
+      }
     }
   }
 `;

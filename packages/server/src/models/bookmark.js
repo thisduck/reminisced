@@ -5,6 +5,7 @@ export default model(
   new Schema(
     {
       url: String,
+      canonicalUrl: String,
     },
     { timestamps: true }
   )
