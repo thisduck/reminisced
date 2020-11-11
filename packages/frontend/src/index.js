@@ -3,5 +3,9 @@ import "./styles.css";
 import App from "./App.vue";
 import { apolloClient } from "./lib/apollo";
 import { DefaultApolloClient } from "@vue/apollo-composable";
+import router from "./router";
 
-createApp(App).provide(DefaultApolloClient, apolloClient).mount("body");
+createApp(App)
+  .use(router)
+  .provide(DefaultApolloClient, apolloClient)
+  .mount("body");
