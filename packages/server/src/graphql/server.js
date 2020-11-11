@@ -18,7 +18,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookmarks: () => Bookmark.find(),
+    bookmarks: () => Bookmark.find().sort("-createdAt"),
   },
   Mutation: {
     addBookmark: async (_, { url }, __) => {

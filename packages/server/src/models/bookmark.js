@@ -1,5 +1,11 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
-export default mongoose.model("Bookmark", {
-  url: String,
-});
+export default model(
+  "Bookmark",
+  new Schema(
+    {
+      url: String,
+    },
+    { timestamps: true }
+  )
+);
