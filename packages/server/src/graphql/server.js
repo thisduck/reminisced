@@ -12,6 +12,7 @@ const typeDefs = gql`
   }
 
   type Article {
+    id: ID!
     title: String!
     byline: String
     dir: String
@@ -24,6 +25,7 @@ const typeDefs = gql`
 
   type Query {
     bookmarks: [Bookmark]!
+    bookmark(id: ID!): Bookmark!
   }
 
   type Mutation {
@@ -40,6 +42,7 @@ const resolvers = {
   },
   Query: {
     bookmarks: () => Bookmark.find().sort("-createdAt"),
+    bookmark: async (_, { id }) => await Bookmark.findById(id)
   },
   Mutation: {
     addBookmark: async (_, { url }, __) => {

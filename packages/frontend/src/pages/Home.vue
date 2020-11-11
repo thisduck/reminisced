@@ -10,11 +10,10 @@
     >
       <div class="px-4 py-5 sm:p-6">
         <div class="font-bold mb-1 text-lg">
-          <a
-            :href="bookmark.url"
-            target="_blank"
+          <router-link
+            :to="{ name: 'Bookmark', params: { id: bookmark.id } }"
             v-if="bookmark.article"
-          >{{ bookmark.article.title }}</a>
+          >{{ bookmark.article.title }}</router-link>
           <a :href="bookmark.url" target="_blank" v-if="!bookmark.article">{{ bookmark.url }}</a>
         </div>
         <div v-if="bookmark.article" class="text-sm">{{ bookmark.article.excerpt }}</div>

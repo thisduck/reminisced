@@ -1,4 +1,4 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   future: {
@@ -7,11 +7,25 @@ module.exports = {
   },
   purge: [],
   theme: {
+    typography: (theme) => ({
+      default: {
+        css: {
+          color: theme("colors.gray.800"),
+          a: {
+            color: theme("colors.blue.700"),
+            "&:hover": {
+              color: theme("colors.blue.500"),
+            },
+          },
+        },
+      },
+    }),
+
     extend: {
       fontFamily: {
-        sans: ['Noto Sans', ...defaultTheme.fontFamily.sans],
-        heading: ['Roboto', ...defaultTheme.fontFamily.sans],
-        logo: ['Cabin', ...defaultTheme.fontFamily.sans],
+        sans: ["Noto Sans", ...defaultTheme.fontFamily.sans],
+        heading: ["Roboto", ...defaultTheme.fontFamily.sans],
+        logo: ["Cabin", ...defaultTheme.fontFamily.sans],
       },
     },
   },
