@@ -18,36 +18,18 @@
 import { ref } from "vue";
 import BookmarkInput from "./components/BookmarkInput.vue";
 import Layout from "./components/Layout.vue";
-import gql from "graphql-tag";
-import { useMutation, useQuery } from "@vue/apollo-composable";
-
-const addBookmarkMutation = gql`
-  mutation addBookmark($url: String!) {
-    addBookmark(url: $url) {
-      id
-      url
-    }
-  }
-`;
-
-const bookmarksQuery = gql`
-  query bookmarks {
-    bookmarks {
-      id
-      url
-    }
-  }
-`;
+import bookmarkCreate from "./graphql/bookmark/create";
+import bookmarkReadAll from "./graphql/bookmark/read-all";
 
 export default {
   setup() {
-    const { mutate: addBookmark, onDone } = useMutation(addBookmarkMutation);
-    const { result, loading, refetch } = useQuery(bookmarksQuery);
+    const createBookmark = bookmarkCreate();
+    const readAllBookmarks = bookmarkReadAll();
     const submit = ({ url, done }) => {
-      addBookmark({ url });
-      onDone(() => {
+      createBookmark.mutate({ url });
+      createBookmark.onDone(() => {
         done();
-        refetch();
+        readAllBookmarks.refetch();
       });
     };
 
@@ -55,8 +37,8 @@ export default {
       submit,
       BookmarkInput,
       Layout,
-      result,
-      loading,
+      result: readAllBookmarks.result,
+      loading: readAllBookmarks.loading,
     };
   },
 };
