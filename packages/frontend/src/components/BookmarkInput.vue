@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="submit">
     <div class="max-w-3xl mx-auto">
-      <div class="mt-1 flex rounded-md shadow-sm">
+      <div class="flex mt-1 rounded-md shadow-sm">
         <div class="relative flex items-stretch flex-grow focus-within:z-10">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              class="h-5 w-5 text-gray-400"
+              class="w-5 h-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -20,12 +20,12 @@
           <input
             ref="link"
             id="link"
-            class="form-input block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+            class="block w-full pl-10 rounded-none form-input rounded-l-md transition ease-in-out duration-150 sm:text-sm sm:leading-5"
             placeholder="http link"
           />
         </div>
         <button
-          class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-100 bg-blue-500 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
+          class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-100 bg-blue-500 border border-gray-300 leading-5 rounded-r-md hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >Save</button>
       </div>
     </div>
@@ -36,11 +36,13 @@
 import { ref } from "vue";
 
 export default {
-  setup() {
+  inheritAttrs: false,
+  emits: ["change"],
+  setup(_, { emit }) {
     const link = ref(null);
     const submit = () => {
-      console.log(link.value.value);
-      setTimeout(() => link.value.value = "", 500)
+      const url = link.value.value;
+      emit("submit", { url, done: () => (link.value.value = "") });
     };
 
     return {
