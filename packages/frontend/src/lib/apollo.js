@@ -4,11 +4,11 @@ import {
   InMemoryCache,
 } from "@apollo/client/core";
 
-let host = "http://localhost:4000/graphql";
+let host = "http://172.20.47.211:4000/graphql";
 
-if (window) {
-  host = `http://${window.location.host.split(":")[0]}:4000/graphql`;
-}
+// if (window) {
+//   host = `http://${window.location.host.split(":")[0]}:4000/graphql`;
+// }
 
 // HTTP connection to the API
 const httpLink = createHttpLink({

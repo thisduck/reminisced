@@ -1,5 +1,6 @@
 node_modules/
 dist/
 mongo-db/
+browser-extension-dist/
 
 .env
